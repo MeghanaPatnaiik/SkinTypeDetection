@@ -1,0 +1,27 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+.env/
+
+# Datasets
+*.zip
+data/
+dataset/
+.cache/
+kagglehub/
+
+# OS files
+.DS_Store
+
+# Logs
+*.log
+
+# VSCode
+.vscode/
+*.pth
