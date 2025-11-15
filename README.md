@@ -41,7 +41,7 @@ pip install -r requirements.txt
 ## ▶️ 4.  Download the model
 
 ```bash
-python download_data.py
+python download_models.py
 ```
 
 ## ▶️ 5. Run Inference & Evaluation
