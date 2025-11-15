@@ -1,6 +1,7 @@
 import os
 import torch
-from torchvision import datasets, transforms
+import torch.nn as nn
+from torchvision import datasets, transforms, models
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 import kagglehub
@@ -63,17 +64,33 @@ def evaluate_model(model, loader):
 
 
 # ---------------------------
-# 5. Load BOTH Models
+# 5. Load BOTH Models (FIXED)
 # ---------------------------
+
+# ----- Load RESNET50 -----
 print("\n Loading ResNet50 model...")
-model_resnet50 = torch.load("resnet50_skin_classifier.pth", map_location=device)
+
+model_resnet50 = models.resnet50(pretrained=False)
+num_ftrs_50 = model_resnet50.fc.in_features
+model_resnet50.fc = nn.Linear(num_ftrs_50, 3)
+
+state_dict_50 = torch.load("resnet50_skin_classifier.pth", map_location=device)
+model_resnet50.load_state_dict(state_dict_50)
 model_resnet50.to(device)
 print(" ResNet50 loaded!")
 
+# ----- Load RESNET152 -----
 print("\n Loading ResNet152 model...")
-model_resnet152 = torch.load("resnet152_skin_classifier.pth", map_location=device)
+
+model_resnet152 = models.resnet152(pretrained=False)
+num_ftrs_152 = model_resnet152.fc.in_features
+model_resnet152.fc = nn.Linear(num_ftrs_152, 3)
+
+state_dict_152 = torch.load("resnet152_skin_classifier.pth", map_location=device)
+model_resnet152.load_state_dict(state_dict_152)
 model_resnet152.to(device)
 print(" ResNet152 loaded!")
+
 
 # ---------------------------
 # 6. Evaluate BOTH Models
@@ -88,7 +105,7 @@ print(f" ResNet152 Test Accuracy: {acc_resnet152:.2f}%\n")
 
 
 # ---------------------------
-# 7. Example prediction with both models
+# 7. Example prediction
 # ---------------------------
 example_img = os.path.join(test_dir, class_names[0],
                            os.listdir(os.path.join(test_dir, class_names[0]))[0])
