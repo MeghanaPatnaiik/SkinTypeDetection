@@ -6,8 +6,8 @@ from tqdm import tqdm
 import kagglehub
 from PIL import Image
 
-import download_model
-download_model.download_models()
+import download_models
+download_models.download_models()
 
 # ---------------------------
 # 1. Download dataset
